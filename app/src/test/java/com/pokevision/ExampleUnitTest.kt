@@ -1,4 +1,4 @@
-package com.example.pokevision
+package com.pokevision
 
 import org.junit.Test
 

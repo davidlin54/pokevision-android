@@ -1,4 +1,4 @@
-package com.example.pokevision.views
+package com.pokevision.views
 
 import android.Manifest
 import android.content.Context
@@ -17,8 +17,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.example.pokevision.R
-import com.example.pokevision.viewmodels.PermissionsViewModel
+import com.pokevision.R
+import com.pokevision.viewmodels.PermissionsViewModel
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable

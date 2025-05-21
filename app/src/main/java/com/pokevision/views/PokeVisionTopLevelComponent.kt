@@ -1,9 +1,9 @@
-package com.example.pokevision.views
+package com.pokevision.views
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import com.example.pokevision.viewmodels.PermissionsViewModel
+import com.pokevision.viewmodels.PermissionsViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable

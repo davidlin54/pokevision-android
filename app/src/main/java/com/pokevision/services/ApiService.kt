@@ -1,6 +1,6 @@
-package com.example.pokevision.services
+package com.pokevision.services
 
-import com.example.pokevision.models.ImagePredictionRequest
+import com.pokevision.models.ImagePredictionRequest
 import retrofit2.Response
 import okhttp3.ResponseBody
 import retrofit2.http.Body

@@ -1,4 +1,4 @@
-package com.example.pokevision.views
+package com.pokevision.views
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -32,11 +32,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.pokevision.R
-import com.example.pokevision.models.ImagePrediction
-import com.example.pokevision.models.NetworkResult
-import com.example.pokevision.viewmodels.ImageViewModel
-import com.example.pokevision.viewmodels.ViewModelFactory
+import com.pokevision.R
+import com.pokevision.models.ImagePrediction
+import com.pokevision.models.NetworkResult
+import com.pokevision.viewmodels.ImageViewModel
+import com.pokevision.viewmodels.ViewModelFactory
 
 @Composable
 fun ResultsContainerComponent(modifier: Modifier = Modifier) {

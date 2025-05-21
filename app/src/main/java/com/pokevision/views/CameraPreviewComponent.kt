@@ -1,4 +1,4 @@
-package com.example.pokevision.views
+package com.pokevision.views
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -41,9 +41,9 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.pokevision.BuildConfig
-import com.example.pokevision.viewmodels.ImageViewModel
-import com.example.pokevision.viewmodels.ViewModelFactory
+import com.pokevision.BuildConfig
+import com.pokevision.viewmodels.ImageViewModel
+import com.pokevision.viewmodels.ViewModelFactory
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError

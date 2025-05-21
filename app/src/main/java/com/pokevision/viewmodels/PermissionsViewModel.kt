@@ -1,4 +1,4 @@
-package com.example.pokevision.viewmodels
+package com.pokevision.viewmodels
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

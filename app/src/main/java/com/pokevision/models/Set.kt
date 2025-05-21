@@ -1,6 +1,6 @@
-package com.example.pokevision.models
+package com.pokevision.models
 
-data class Item(
+data class Set(
     val id: Int,
     val name: String,
     val url: String,

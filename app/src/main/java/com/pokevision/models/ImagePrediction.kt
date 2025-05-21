@@ -1,4 +1,4 @@
-package com.example.pokevision.models
+package com.pokevision.models
 
 data class ImagePrediction(
     val item: Item,

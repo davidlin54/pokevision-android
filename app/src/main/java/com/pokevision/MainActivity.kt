@@ -1,10 +1,9 @@
-package com.example.pokevision
+package com.pokevision
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.example.pokevision.viewmodels.PermissionsViewModel
-import com.example.pokevision.views.PokeVisionTopLevelComponent
+import com.pokevision.views.PokeVisionTopLevelComponent
 import com.google.android.gms.ads.MobileAds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

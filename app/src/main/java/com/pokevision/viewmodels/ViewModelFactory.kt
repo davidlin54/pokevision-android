@@ -1,9 +1,9 @@
-package com.example.pokevision.viewmodels
+package com.pokevision.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.pokevision.data.PokeVisionRetrofitInstance
-import com.example.pokevision.repositories.ImageRepository
+import com.pokevision.data.PokeVisionRetrofitInstance
+import com.pokevision.repositories.ImageRepository
 
 class ViewModelFactory : ViewModelProvider.Factory {
     val imageRepository = ImageRepository(PokeVisionRetrofitInstance.apiService)

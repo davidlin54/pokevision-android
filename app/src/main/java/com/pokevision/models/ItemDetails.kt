@@ -1,4 +1,4 @@
-package com.example.pokevision.models
+package com.pokevision.models
 
 data class ItemDetails(
     val ungradedPrice: Double,

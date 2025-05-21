@@ -1,4 +1,4 @@
-package com.example.pokevision.models
+package com.pokevision.models
 
 import androidx.compose.runtime.State
 

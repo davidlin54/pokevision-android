@@ -1,7 +1,7 @@
-package com.example.pokevision.data
+package com.pokevision.data
 
-import com.example.pokevision.BuildConfig
-import com.example.pokevision.services.ApiService
+import com.pokevision.BuildConfig
+import com.pokevision.services.ApiService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

@@ -1,4 +1,4 @@
-package com.example.pokevision.views
+package com.pokevision.views
 
 import android.content.Intent
 import android.net.Uri
@@ -34,15 +34,15 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.net.toUri
 import androidx.core.view.marginBottom
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.pokevision.BuildConfig
-import com.example.pokevision.R
-import com.example.pokevision.models.ImagePrediction
-import com.example.pokevision.models.Item
-import com.example.pokevision.models.ItemDetails
-import com.example.pokevision.models.NetworkResult
-import com.example.pokevision.models.Set
-import com.example.pokevision.viewmodels.ImageViewModel
-import com.example.pokevision.viewmodels.ViewModelFactory
+import com.pokevision.BuildConfig
+import com.pokevision.R
+import com.pokevision.models.ImagePrediction
+import com.pokevision.models.Item
+import com.pokevision.models.ItemDetails
+import com.pokevision.models.NetworkResult
+import com.pokevision.models.Set
+import com.pokevision.viewmodels.ImageViewModel
+import com.pokevision.viewmodels.ViewModelFactory
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView

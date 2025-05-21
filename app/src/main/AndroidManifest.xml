@@ -23,7 +23,7 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="${admobAppId}"/>
         <activity
-            android:name=".MainActivity"
+            android:name="com.pokevision.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.example.pokevision.viewmodels
+package com.pokevision.viewmodels
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -6,10 +6,10 @@ import android.util.Base64
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pokevision.models.ImagePrediction
-import com.example.pokevision.models.Item
-import com.example.pokevision.models.NetworkResult
-import com.example.pokevision.repositories.ImageRepository
+import com.pokevision.models.ImagePrediction
+import com.pokevision.models.Item
+import com.pokevision.models.NetworkResult
+import com.pokevision.repositories.ImageRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

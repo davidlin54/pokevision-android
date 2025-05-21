@@ -1,27 +1,35 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
 }
 
-val admobAppId: String = project.findProperty("ADMOB_APP_ID") as? String ?: ""
-val admobResultsBannerId: String = project.findProperty("ADMOB_RESULTS_BANNER_ID") as? String ?: ""
-val admobInterstitialId: String = project.findProperty("ADMOB_INTERSTITIAL_ID") as? String ?: ""
-val serverBaseUrl: String = project.findProperty("SERVER_BASE_URL") as? String ?: ""
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) {
+        load(file.inputStream())
+    }
+}
+
+val admobAppId: String = localProperties.getProperty("ADMOB_APP_ID")
+val admobResultsBannerId: String = localProperties.getProperty("ADMOB_RESULTS_BANNER_ID")
+val admobInterstitialId: String = localProperties.getProperty("ADMOB_INTERSTITIAL_ID")
+val serverBaseUrl: String = localProperties.getProperty("SERVER_BASE_URL")
 
 android {
-    namespace = "com.example.pokevision"
+    namespace = "com.pokevision"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.pokevision"
+        applicationId = "com.pokevision"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "ADMOB_APP_ID", "\"$admobAppId\"")
         buildConfigField("String", "ADMOB_RESULTS_BANNER_ID", "\"$admobResultsBannerId\"")
         buildConfigField("String", "ADMOB_INTERSTITIAL_ID", "\"$admobInterstitialId\"")
         buildConfigField("String", "SERVER_BASE_URL", "\"$serverBaseUrl\"")
@@ -51,6 +59,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.review)
     implementation(libs.google.guava)
     implementation(libs.play.services.ads)
     implementation(libs.jsoup)

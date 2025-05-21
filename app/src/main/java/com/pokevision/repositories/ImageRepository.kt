@@ -1,15 +1,15 @@
-package com.example.pokevision.repositories
+package com.pokevision.repositories
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.lifecycle.viewModelScope
-import com.example.pokevision.models.ImagePrediction
-import com.example.pokevision.models.ImagePredictionRequest
-import com.example.pokevision.models.Item
-import com.example.pokevision.models.Set
-import com.example.pokevision.models.ItemDetails
-import com.example.pokevision.models.NetworkResult
-import com.example.pokevision.services.ApiService
+import com.pokevision.models.ImagePrediction
+import com.pokevision.models.ImagePredictionRequest
+import com.pokevision.models.Item
+import com.pokevision.models.Set
+import com.pokevision.models.ItemDetails
+import com.pokevision.models.NetworkResult
+import com.pokevision.services.ApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch

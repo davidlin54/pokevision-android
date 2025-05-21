@@ -1,5 +1,8 @@
-package com.example.pokevision.views
+package com.pokevision.views
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,17 +33,20 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.pokevision.R
-import com.example.pokevision.models.ImagePrediction
-import com.example.pokevision.models.NetworkResult
-import com.example.pokevision.viewmodels.ImageViewModel
-import com.example.pokevision.viewmodels.ViewModelFactory
+import com.google.android.play.core.review.ReviewManagerFactory
+import com.pokevision.R
+import com.pokevision.models.ImagePrediction
+import com.pokevision.models.NetworkResult
+import com.pokevision.viewmodels.ImageViewModel
+import com.pokevision.viewmodels.ViewModelFactory
 import kotlinx.coroutines.launch
+import androidx.core.net.toUri
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,10 +61,35 @@ fun ImagePredictionComponent(imagePrediction: ImagePrediction) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
     var showSheet = remember { mutableStateOf(false) }
+    val activity = LocalContext.current as Activity
 
     if (showSheet.value) {
         ModalBottomSheet(
-            onDismissRequest = { showSheet.value = false },
+            onDismissRequest = {
+                showSheet.value = false
+
+                val reviewManager = ReviewManagerFactory.create(activity)
+                val request = reviewManager.requestReviewFlow()
+
+                request.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val reviewInfo = task.result
+                        val flow = reviewManager.launchReviewFlow(activity, reviewInfo)
+                        flow.addOnCompleteListener {
+                            // The flow has finished. The user may or may not have left a review.
+                            // You can’t tell — and shouldn’t ask.
+                        }
+                    } else {
+                        // Fallback: take user to Play Store
+                        val appPackageName = activity.packageName
+                        val intent = Intent(
+                            Intent.ACTION_VIEW,
+                            "https://play.google.com/store/apps/details?id=$appPackageName".toUri()
+                        )
+                        activity.startActivity(intent)
+                    }
+                }
+            },
             sheetState = sheetState
         ) {
             FullItemDetailsComponent(item, itemDetails, set)
@@ -89,9 +120,10 @@ fun ImagePredictionComponent(imagePrediction: ImagePrediction) {
                 )
             }
             is NetworkResult.Success -> {
-                Image(bitmap = result.data.asImageBitmap(),
+                Image(
+                    bitmap = result.data.asImageBitmap(),
                     contentDescription = null,
-                    modifier = Modifier.height(132.dp).aspectRatio(1/1.4f),
+                    modifier = Modifier.height(132.dp).aspectRatio(1 / 1.4f),
                     contentScale = ContentScale.Fit,
                 )
             }
