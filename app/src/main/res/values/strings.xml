@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">PokeVision</string>
+    <string name="camera_permission_explanation">Camera permission is required for using PokeVision</string>
+    <string name="camera_permission_button">Grant permission</string>
+    <string name="camera_permission_button_go_to_settings">Go to settings</string>
+    <string name="results_start_instruction">To search, take a picture of the front of the card.</string>
+    <string name="results_try_again">Search failed. Press to try again</string>
+    <string name="result_prediction_confidence">Confidence: %.2f%%</string>
+    <string name="result_prices">Raw price: $%.2f</string>
+    <string name="result_psa_1_prices">PSA 1 price: $%.2f</string>
+    <string name="result_psa_2_prices">PSA 2 price: $%.2f</string>
+    <string name="result_psa_3_prices">PSA 3 price: $%.2f</string>
+    <string name="result_psa_4_prices">PSA 4 price: $%.2f</string>
+    <string name="result_psa_5_prices">PSA 5 price: $%.2f</string>
+    <string name="result_psa_6_prices">PSA 6 price: $%.2f</string>
+    <string name="result_psa_7_prices">PSA 7 price: $%.2f</string>
+    <string name="result_psa_8_prices">PSA 8 price: $%.2f</string>
+    <string name="result_psa_9_prices">PSA 9 price: $%.2f</string>
+    <string name="result_psa_10_prices">PSA 10 price: $%.2f</string>
+    <string name="open_in_pricecharting">PriceCharting</string>
+    <string name="open_in_ebay">eBay</string>
 </resources>

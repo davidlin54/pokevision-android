@@ -1,0 +1,25 @@
+package com.example.pokevision.models
+
+data class ItemDetails(
+    val ungradedPrice: Double,
+    val psa1Pop: Int?,
+    val psa1Price: Double,
+    val psa2pop: Int?,
+    val psa2Price: Double,
+    val psa3Pop: Int?,
+    val psa3Price: Double,
+    val psa4Pop: Int?,
+    val psa4Price: Double,
+    val psa5Pop: Int?,
+    val psa5Price: Double,
+    val psa6Pop: Int?,
+    val psa6Price: Double,
+    val psa7Pop: Int?,
+    val psa7Price: Double,
+    val psa8Pop: Int?,
+    val psa8Price: Double,
+    val psa9Pop: Int?,
+    val psa9Price: Double,
+    val psa10Pop: Int?,
+    val psa10Price: Double,
+)
