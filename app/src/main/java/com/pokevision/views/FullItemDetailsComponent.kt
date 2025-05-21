@@ -46,10 +46,12 @@ import com.pokevision.viewmodels.ViewModelFactory
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
+import com.pokevision.viewmodels.AdsViewModel
 
 @Composable
 fun FullItemDetailsComponent(item: Item, itemDetails: ItemDetails, set: Set) {
     val imageViewModel : ImageViewModel = viewModel(factory = ViewModelFactory())
+    val adsViewModel : AdsViewModel = viewModel()
     val bitmap = imageViewModel.getImageForItem(item).collectAsState()
     val imageHeight = 200.dp
     val context = LocalContext.current
@@ -60,7 +62,7 @@ fun FullItemDetailsComponent(item: Item, itemDetails: ItemDetails, set: Set) {
             factory = { context ->
                 AdView(context).apply {
                     setAdSize(AdSize.BANNER)
-                    adUnitId = BuildConfig.ADMOB_RESULTS_BANNER_ID
+                    adUnitId = adsViewModel.bannerAdId
                     loadAd(AdRequest.Builder().build())
                     layoutParams = FrameLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,

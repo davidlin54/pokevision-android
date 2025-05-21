@@ -49,6 +49,7 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.pokevision.viewmodels.AdsViewModel
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -58,13 +59,11 @@ import java.util.concurrent.TimeUnit
 @SuppressLint("ClickableViewAccessibility")
 @Composable
 fun CameraPreviewComponent() {
+    val adsViewModel : AdsViewModel = viewModel()
     val context = LocalContext.current
     val lifecycleOwner = context as LifecycleOwner
     val previewView = remember { PreviewView(context) }
     var interstitialAd by remember { mutableStateOf<InterstitialAd?>(null) }
-    var lastAdShownTime by remember { mutableLongStateOf(0L) }
-    val cooldownMillis = 30 * 1000L // 30 seconds cooldown
-    var skipFirstAd by remember { mutableStateOf(true) }
 
     LaunchedEffect(Unit) {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
@@ -104,11 +103,7 @@ fun CameraPreviewComponent() {
 
     LaunchedEffect(interstitialAd) {
         if (interstitialAd == null) {
-            val adRequest = AdRequest.Builder().build()
-            InterstitialAd.load(
-                context,
-                BuildConfig.ADMOB_INTERSTITIAL_ID,
-                adRequest,
+            adsViewModel.loadInterstitialAd(context,
                 object : InterstitialAdLoadCallback() {
                     override fun onAdLoaded(ad: InterstitialAd) {
                         interstitialAd = ad
@@ -136,24 +131,8 @@ fun CameraPreviewComponent() {
         Column(modifier = Modifier.align(Alignment.BottomCenter).padding(vertical = 16.dp)) {
             ResultsContainerComponent(Modifier.padding(vertical = 16.dp))
             CameraIconComponent(previewView, Modifier.padding(16.dp).align(Alignment.CenterHorizontally)) {
-                if (skipFirstAd) {
-                    skipFirstAd = false
-                    return@CameraIconComponent
-                }
-
-                val now = System.currentTimeMillis()
-                if (interstitialAd != null && (now - lastAdShownTime) > cooldownMillis) {
-                    interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
-                        override fun onAdDismissedFullScreenContent() {
-                            interstitialAd = null // reload ad
-                        }
-
-                        override fun onAdFailedToShowFullScreenContent(adError: com.google.android.gms.ads.AdError) {
-                            interstitialAd = null
-                        }
-                    }
-                    interstitialAd?.show(context as Activity)
-                    lastAdShownTime = now
+                adsViewModel.maybeShowInterstitialAd(context as Activity, interstitialAd) {
+                    interstitialAd = null
                 }
             }
         }
@@ -166,6 +145,7 @@ fun CameraOverlay(
     borderWidth: Float = 4f,
     dimColor: Color = Color.Black.copy(alpha = 0.6f)
 ) {
+    val imageViewModel : ImageViewModel = viewModel(factory = ViewModelFactory())
     // Hold current canvas size in state
     var canvasSize by remember { mutableStateOf(Size.Zero) }
 
@@ -175,7 +155,7 @@ fun CameraOverlay(
             // Placeholder before size is known
             Pair(Rect.Zero, Path())
         } else {
-            val rect = getCenterRect(canvasSize.height, canvasSize.width)
+            val rect = imageViewModel.getCenterRect(canvasSize.height, canvasSize.width)
             val path = Path().apply {
                 addRect(Rect(0f, 0f, canvasSize.width, canvasSize.height), Path.Direction.Clockwise)
                 addRect(rect, Path.Direction.CounterClockwise)
@@ -206,18 +186,6 @@ fun CameraOverlay(
 }
 
 
-fun getCenterRect(canvasHeight: Float, canvasWidth: Float) : Rect {
-    val rectWidth = canvasWidth * 0.7f
-    val rectHeight = rectWidth * 1.4f
-
-    // Center rectangle coords
-    val left = (canvasWidth - rectWidth) / 2f
-    val top = canvasHeight / 10f
-    val right = left + rectWidth
-    val bottom = top + rectHeight
-
-    return Rect(left, top, right, bottom)
-}
 
 @Composable
 fun CameraIconComponent(previewView: PreviewView, modifier: Modifier = Modifier, onClick : () -> Unit) {
@@ -238,22 +206,7 @@ fun CameraIconComponent(previewView: PreviewView, modifier: Modifier = Modifier,
                 val fullBitmap : Bitmap? = previewView.bitmap
 
                 fullBitmap?.let {
-                    val cropRect =
-                        getCenterRect(fullBitmap.height.toFloat(), fullBitmap.width.toFloat())
-
-                    val croppedBitmap = Bitmap.createBitmap(
-                        fullBitmap,
-                        cropRect.left.toInt(),
-                        cropRect.top.toInt(),
-                        cropRect.width.toInt(),
-                        cropRect.height.toInt()
-                    )
-
-                    // 5. Save the cropped bitmap back to a file
-                    FileOutputStream(photoFile).use { outStream ->
-                        croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 90, outStream)
-                    }
-
+                    imageViewModel.cropPreviewImageSnapshot(fullBitmap, photoFile)
                     imageViewModel.onNewImageCaptured(photoFile)
                 }
             },

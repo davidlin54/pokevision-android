@@ -51,7 +51,7 @@ fun CameraPermissionComponent(permissionsViewModel: PermissionsViewModel) {
         if (!multiplePermissionsState.allPermissionsGranted) {
             Text(stringResource(R.string.camera_permission_explanation))
             Button(onClick = {
-                if (goToSettings) openAppSettings(context)
+                if (goToSettings) permissionsViewModel.openAppSettings(context)
                 else multiplePermissionsState.launchMultiplePermissionRequest()
             }) {
                 Text(stringResource(
@@ -60,11 +60,4 @@ fun CameraPermissionComponent(permissionsViewModel: PermissionsViewModel) {
             }
         }
     }
-}
-
-fun openAppSettings(context: Context) {
-    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-    data = Uri.fromParts("package", context.packageName, null)
-}
-    context.startActivity(intent)
 }

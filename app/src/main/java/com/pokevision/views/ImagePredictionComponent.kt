@@ -47,11 +47,13 @@ import com.pokevision.viewmodels.ImageViewModel
 import com.pokevision.viewmodels.ViewModelFactory
 import kotlinx.coroutines.launch
 import androidx.core.net.toUri
+import com.pokevision.viewmodels.ReviewViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImagePredictionComponent(imagePrediction: ImagePrediction) {
     val imageViewModel : ImageViewModel = viewModel(factory = ViewModelFactory())
+    val reviewViewModel : ReviewViewModel = viewModel()
 
     val item = imagePrediction.item
     val itemDetails = imagePrediction.itemDetails
@@ -68,27 +70,7 @@ fun ImagePredictionComponent(imagePrediction: ImagePrediction) {
             onDismissRequest = {
                 showSheet.value = false
 
-                val reviewManager = ReviewManagerFactory.create(activity)
-                val request = reviewManager.requestReviewFlow()
-
-                request.addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val reviewInfo = task.result
-                        val flow = reviewManager.launchReviewFlow(activity, reviewInfo)
-                        flow.addOnCompleteListener {
-                            // The flow has finished. The user may or may not have left a review.
-                            // You can’t tell — and shouldn’t ask.
-                        }
-                    } else {
-                        // Fallback: take user to Play Store
-                        val appPackageName = activity.packageName
-                        val intent = Intent(
-                            Intent.ACTION_VIEW,
-                            "https://play.google.com/store/apps/details?id=$appPackageName".toUri()
-                        )
-                        activity.startActivity(intent)
-                    }
-                }
+                reviewViewModel.maybeLaunchReviewRequest(activity)
             },
             sheetState = sheetState
         ) {

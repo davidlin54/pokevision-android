@@ -1,5 +1,9 @@
 package com.pokevision.viewmodels
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,4 +17,10 @@ class PermissionsViewModel : ViewModel() {
         _cameraPermissionGranted.value = granted
     }
 
+    fun openAppSettings(context: Context) {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+            data = Uri.fromParts("package", context.packageName, null)
+        }
+        context.startActivity(intent)
+    }
 }

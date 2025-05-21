@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
 import android.util.Log
+import androidx.compose.ui.geometry.Rect
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pokevision.models.ImagePrediction
@@ -18,6 +19,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.File
+import java.io.FileOutputStream
 
 class ImageViewModel(private val repository: ImageRepository) : ViewModel() {
     private val _imageFile = MutableStateFlow<File?>(null)
@@ -67,5 +69,36 @@ class ImageViewModel(private val repository: ImageRepository) : ViewModel() {
 
         imageMap[item] = bitmapState
         return bitmapState
+    }
+
+    fun getCenterRect(canvasHeight: Float, canvasWidth: Float) : Rect {
+        val rectWidth = canvasWidth * 0.7f
+        val rectHeight = rectWidth * 1.4f
+
+        // Center rectangle coords
+        val left = (canvasWidth - rectWidth) / 2f
+        val top = canvasHeight / 10f
+        val right = left + rectWidth
+        val bottom = top + rectHeight
+
+        return Rect(left, top, right, bottom)
+    }
+
+    fun cropPreviewImageSnapshot(fullBitmap: Bitmap, photoFile: File) {
+        val cropRect =
+            getCenterRect(fullBitmap.height.toFloat(), fullBitmap.width.toFloat())
+
+        val croppedBitmap = Bitmap.createBitmap(
+            fullBitmap,
+            cropRect.left.toInt(),
+            cropRect.top.toInt(),
+            cropRect.width.toInt(),
+            cropRect.height.toInt()
+        )
+
+        // 5. Save the cropped bitmap back to a file
+        FileOutputStream(photoFile).use { outStream ->
+            croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 90, outStream)
+        }
     }
 }
